@@ -1,0 +1,127 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Challenge SOLID Documentation",
+    "description": "This is a SOLID challenge API",
+    "version": "1.0.0",
+    "contact": {
+      "email": "jovinone@gmail.com"
+    }
+  },
+  "tags": [
+    {
+      "name": "users",
+      "description": "manage users"
+    }
+  ],
+  "paths": {
+    "/users": {
+      "post": {
+        "tags": ["users"],
+        "summary": "Create a user",
+        "description": "Não é permitido cadastrar usuário com email já cadastrado para outro usuário",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "name": "Jacinto Júnior",
+                  "email": "junior@email.com"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "User already exists"
+          }
+        }
+      }
+    },
+    "/users/{user_id}/admin": {
+      "patch": {
+        "tags": ["users"],
+        "summary": "User update to administrator",
+        "description": "",
+        "parameters": [
+          {
+            "name":"user_id",
+            "in":"path",
+            "description":"Id of user",
+            "required":true,
+            "type":"string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User successfully updated"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      }
+    },
+    "/users/{user_id}": {
+      "get": {
+        "tags": ["users"],
+        "summary": "seach user profile by ID",
+        "description": "",
+        "parameters": [
+          {
+            "name":"user_id",
+            "in":"path",
+            "description":"Id of user",
+            "required":true,
+            "type":"string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      }
+    },
+    "/users/": {
+      "get": {
+        "tags": ["users"],
+        "summary": "List all users",
+        "description": "Somente usuário administrador tem permissão para listar todos os usuários cadastrados",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "header",
+            "description": "The user name for login",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "User is not an administrator"
+          }
+        }
+      }
+    }
+  }
+}
